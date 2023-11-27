@@ -11,9 +11,17 @@ automatic_response_message = (
     "ou sur Element (Matrix) avec l'identifiant @neocraft1293:matrix.org.\n"
     "https://element.io/"
 )
+print("message automatique:", automatic_response_message)
+heure_actuelle = datetime.now()
 
+sleep_time = 900
+sleep_time_after_response = 60
+print("temps de pause:", sleep_time, "secondes")
+print("temps de pause après envoi d'un message:", sleep_time_after_response, "secondes")
 # Définir les préfixes des numéros autorisés
 allowed_prefixes = ["+337", "+336", "07", "06"]
+print("numéros autorisés:", allowed_prefixes)
+print(heure_actuelle , "démarrage du script.")
 
 def is_allowed_number(number):
     # Vérifie si le numéro commence par l'un des préfixes autorisés
@@ -61,24 +69,26 @@ def main():
 
         # Affiche et répond aux nouveaux messages entrants autorisés
         for sms in new_incoming_messages:
-            print(f"nouveau sms de: {sms['number']}\nMessage: {sms['body']}\n")
+            print(f"{heure_actuelle} nouveau sms de: {sms['number']}\nMessage: {sms['body']} a {heure_actuelle}")
 
             # Vérifie si le message entrant est identique à la réponse automatique
             if sms['body'] != automatic_response_message:
                 # Envoie une réponse automatique uniquement si le dernier message envoyé n'est pas identique au message actuel
+                print(heure_actuelle , "envoie du message automatic.")
                 send_response(sms['number'])
-                print("envoie du message automatic.")
+                print(heure_actuelle , "pause de", sleep_time_after_response, "secondes.")
+                time.sleep(sleep_time_after_response)
+                
             else:
-                print("le message n'a pas été envoyé car il est identique au message automatic.")
+                print(heure_actuelle , "le message n'a pas été envoyé car il est identique au message automatic.")
 
         # Enregistre la liste actuelle comme état précédent pour la prochaine itération
         with open('previous_sms_state.json', 'w') as file:
             json.dump(current_sms_list, file, indent=2)
 
-        # Pause de 900 secondes
-        heure_actuelle = datetime.now()
-        print("Nouvelle analyse des SMS:", heure_actuelle + timedelta(minutes=15)) 
-        time.sleep(900)
+        # Pause 
+        print(heure_actuelle , "Nouvelle analyse des SMS:", heure_actuelle + timedelta(seconds=sleep_time)) 
+        time.sleep(sleep_time)
         
 
 if __name__ == "__main__":
