@@ -4,7 +4,10 @@ import time
 
 # Définir le message automatique avec des sauts de ligne
 automatic_response_message = (
-    "Ceci est un message automatique."
+    "Ceci est un message automatique. Pour des raisons de sécurité, je ne communique plus via SMS.\n\n"
+    "Vous pouvez me contacter sur Signal avec le même numéro de téléphone : https://signal.org/fr/ (si vous préférez la simplicité).\n"
+    "ou sur Element (Matrix) avec l'identifiant @neocraft1293:matrix.org.\n"
+    "https://element.io/"
 )
 
 # Définir les préfixes des numéros autorisés
@@ -23,9 +26,19 @@ def get_sms():
     
     return sms_list
 
+def get_last_sent_message():
+    # Exécute la commande termux pour obtenir le dernier message envoyé
+    result = subprocess.run(['termux-sms-list', '-d', 'sent', '--limit', '1', '--columns', 'body,number'], stdout=subprocess.PIPE, text=True)
+    return result.stdout.strip()
+
 def send_response(number):
-    # Envoie une réponse automatique
-    subprocess.run(['termux-sms-send', '-n', number, automatic_response_message])
+    # Obtient le dernier message envoyé
+    last_sent_message = get_last_sent_message()
+
+    # Vérifie si le dernier message envoyé n'est pas identique au message automatique et au message actuel
+    if last_sent_message != automatic_response_message and last_sent_message != automatic_response_message:
+        # Envoie une réponse automatique
+        subprocess.run(['termux-sms-send', '-n', number, automatic_response_message])
 
 def main():
     while True:
@@ -50,10 +63,8 @@ def main():
 
             # Vérifie si le message entrant est identique à la réponse automatique
             if sms['body'] != automatic_response_message:
-                # Envoie une réponse automatique
+                # Envoie une réponse automatique uniquement si le dernier message envoyé n'est pas identique au message actuel
                 send_response(sms['number'])
-            else:
-                print("Ignoring automatic response message")
 
         # Enregistre la liste actuelle comme état précédent pour la prochaine itération
         with open('previous_sms_state.json', 'w') as file:
