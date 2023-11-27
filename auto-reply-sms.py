@@ -65,13 +65,18 @@ def main():
             if sms['body'] != automatic_response_message:
                 # Envoie une réponse automatique uniquement si le dernier message envoyé n'est pas identique au message actuel
                 send_response(sms['number'])
+                print("Sent automatic response.")
+            else:
+                print("Not sending automatic response because last sent message is identical.")
 
         # Enregistre la liste actuelle comme état précédent pour la prochaine itération
         with open('previous_sms_state.json', 'w') as file:
             json.dump(current_sms_list, file, indent=2)
 
-        # Pause de 5 secondes
-        time.sleep(5)
+        # Pause de 900 secondes
+        print("Waiting for new messages...")
+        time.sleep(900)
+        
 
 if __name__ == "__main__":
     main()
