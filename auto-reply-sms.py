@@ -1,6 +1,8 @@
 import subprocess
 import json
 import time
+from datetime import datetime, timedelta
+
 
 # Définir le message automatique avec des sauts de ligne
 automatic_response_message = (
@@ -59,22 +61,23 @@ def main():
 
         # Affiche et répond aux nouveaux messages entrants autorisés
         for sms in new_incoming_messages:
-            print(f"New incoming message from: {sms['number']}\nMessage: {sms['body']}\n")
+            print(f"nouveau sms de: {sms['number']}\nMessage: {sms['body']}\n")
 
             # Vérifie si le message entrant est identique à la réponse automatique
             if sms['body'] != automatic_response_message:
                 # Envoie une réponse automatique uniquement si le dernier message envoyé n'est pas identique au message actuel
                 send_response(sms['number'])
-                print("Sent automatic response.")
+                print("envoie du message automatic.")
             else:
-                print("Not sending automatic response because last sent message is identical.")
+                print("le message n'a pas été envoyé car il est identique au message automatic.")
 
         # Enregistre la liste actuelle comme état précédent pour la prochaine itération
         with open('previous_sms_state.json', 'w') as file:
             json.dump(current_sms_list, file, indent=2)
 
         # Pause de 900 secondes
-        print("Waiting for new messages...")
+        heure_actuelle = datetime.now()
+        print("Nouvelle analyse des SMS:", heure_actuelle + timedelta(minutes=15)) 
         time.sleep(900)
         
 
