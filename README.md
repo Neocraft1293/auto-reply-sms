@@ -7,7 +7,7 @@ Ce script Python est conçu pour être utilisé avec [Termux](https://termux.com
 Avant d'utiliser ce script, assurez-vous d'avoir les éléments suivants installés sur votre appareil Android :
 
 - [Termux](https://termux.com/) installé.
-- Python installé dans Termux. Vous pouvez l'installer en utilisant la commande :
+- Python et termux-api installé dans Termux. Vous pouvez l'installer en utilisant la commande :
   ```bash
   pkg install python
   pkg install termux-api
