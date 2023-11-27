@@ -1,6 +1,6 @@
 # Auto Reply SMS Script for Termux
 
-Ce script Python est conçu pour être utilisé avec [Termux](https://termux.com/), un émulateur de terminal pour Android. Il permet d'automatiser l'envoi de réponses automatiques à des messages SMS entrants. ce script fonctionne sur android 14 (j'ai un google pixel 6a sur GraphenOS)
+Ce script Python est conçu pour être utilisé avec [Termux](https://termux.com/), un émulateur de terminal pour Android. Il permet d'automatiser l'envoi de réponses automatiques à des messages SMS entrants. ce script fonctionne sur android 14 (j'ai un google pixel 6a sur GrapheneOS)
 
 ## Prérequis
 
