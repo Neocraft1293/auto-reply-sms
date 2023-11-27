@@ -12,7 +12,7 @@ Avant d'utiliser ce script, assurez-vous d'avoir les éléments suivants install
   pkg install python
   pkg install termux-api
   ```
-  Les autorisations nécessaires accordées à Termux via ADB. Vous pouvez utiliser les commandes suivantes :
+  Les autorisations nécessaires accordées à Termux via ADB depuis un pc. Vous pouvez utiliser les commandes suivantes :
   ```
   adb shell pm grant com.termux android.permission.SEND_SMS
   adb shell pm grant com.termux android.permission.READ_SMS
